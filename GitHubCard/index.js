@@ -34,6 +34,7 @@ import axios from 'axios';
 const followersArray = [];
 get request
 inspect and study the data coming back
+create a function to create and return HTML
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
