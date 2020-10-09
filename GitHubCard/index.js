@@ -1,4 +1,7 @@
+
+
 /*
+
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
@@ -27,7 +30,7 @@
     Using that array, iterate over it, requesting data for each user, creating a new card for each
     user, and adding that card to the DOM.
 */
-
+import axios from 'axios';
 const followersArray = [];
 
 /*
