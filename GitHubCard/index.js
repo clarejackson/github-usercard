@@ -7,15 +7,20 @@ import axios from 'axios';
     https://api.github.com/users/<your name>
 */
 
-const info = axios.get("https://api.github.com/users/clarejackson")
+axios.get("https://api.github.com/users/clarejackson")
 .then((response) => {
-  // const info = response.data;
-  // const cardInfo = cardMaker(info);
-  console.log(response);
+  // console.log(response);
+  const info = response.data;
+  const cardClass = document.querySelector('.cards');
+  const maker = cardMaker(info);
+  cardClass.appendChild(maker);
+// console.log(cardClass);
+
 })
-.catch((error) => {
-  console.log('the data was not returned', error);
-})
+// .catch((error) => {
+//   return ('the data was not returned', error);
+// })
+
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -39,7 +44,24 @@ const info = axios.get("https://api.github.com/users/clarejackson")
     Using that array, iterate over it, requesting data for each user, creating a new card for each
     user, and adding that card to the DOM.
 */
-const followersArray = ["https://api.github.com/users/DanielleKoduru", "https://api.github.com/users/barbaralois", "https://api.github.com/users/somersgreg", "https://api.github.com/users/ViridityMoon", "https://api.github.com/users/cl-sol"];
+
+const followersArray = [
+  "https://api.github.com/users/DanielleKoduru", 
+  "https://api.github.com/users/barbaralois", 
+  "https://api.github.com/users/somersgreg", 
+  "https://api.github.com/users/ViridityMoon", 
+  "https://api.github.com/users/cl-sol"
+];
+
+followersArray.forEach(follower => {
+  axios.get(`${follower}`)
+    .then (response => {
+      // console.log(response);
+      const card = cardMaker(response.data);
+      const cardClass = document.querySelector('.cards');
+      cardClass.appendChild(card);
+    })
+})
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -65,52 +87,65 @@ const cardMaker = (object) => {
   cardDiv.classList.add('card');
 
   const img = document.createElement('img');
-  img.setAttribute('src', object.data.avatar_url);
-  cardDiv.appendChild(img);
+  img.setAttribute('src', object.avatar_url);
+  // cardDiv.appendChild(img);
 
   const infoDiv = document.createElement('div');
   infoDiv.classList.add('card-info');
-  cardDiv.appendChild(infoDiv);
+  // cardDiv.appendChild(infoDiv);
 
   const name = document.createElement('h3');
   name.classList.add('name');
-  name.textContent = object.data.name;
-  infoDiv.appendChild(name)
+  name.textContent = object.name;
+  // infoDiv.appendChild(name)
 
   const username = document.createElement('p');
-  username.classList('username');
-  username.textContent = object.data.login;
-  infoDiv.appendChild(username);
+  username.classList.add('username');
+  username.textContent = object.login;
+  // infoDiv.appendChild(username);
 
   const location = document.createElement('p');
-  location.textContent = `Location: ${object.data.location}`;
-  infoDiv.appendChild(location);
+  location.textContent = `Location: ${object.location}`;
+  // infoDiv.appendChild(location);
 
   const profile = document.createElement('p');
-  profile.textContent = 'Profile: '
-  infoDiv.appendChild(profile);
+  profile.textContent = `Profile: ${object.url}`
+  // infoDiv.appendChild(profile);
 
   const a = document.createElement('a');
-  a.setAttribute('href', object.data.url);
-  profile.appendChild(a);
+  a.setAttribute('href', object.url);
+  // profile.appendChild(a);
 
   const followers = document.createElement('p');
-  followers.textContent = `Followers: ${object.data.followers}`;
-  infoDiv.appendChild(followers);
+  followers.textContent = `Followers: ${object.followers}`;
+  // infoDiv.appendChild(followers);
 
   const following = document.createElement('p');
-  following.textContent = `Following: ${object.data.following}`;
-  infoDiv.appendChild(following);
+  following.textContent = `Following: ${object.following}`;
+  // infoDiv.appendChild(following);
 
   const bio = document.createElement('p');
-  bio.textContent = `Bio: ${object.data.bio}`;
+  bio.textContent = `Bio: ${object.bio}`;
+  // infoDiv.appendChild(bio);
+
+  cardDiv.appendChild(img);
+  cardDiv.appendChild(infoDiv);
+  infoDiv.appendChild(name);
+  infoDiv.appendChild(username);
+  infoDiv.appendChild(location);
+  infoDiv.appendChild(profile);
+  profile.appendChild(a);
+  infoDiv.appendChild(followers);
+  infoDiv.appendChild(following);
   infoDiv.appendChild(bio);
 
-  console.log(cardDiv);
+
+  // console.log(cardDiv);
   return cardDiv;
 }
-const cardClass = document.querySelector('.cards');
-cardClass.appendChild(cardMaker(info));
+// const cardClass = document.querySelector('div.cards');
+// console.log(cardClass);
+// cardClass.appendChild(cardMaker(info));
 
 
 /*
